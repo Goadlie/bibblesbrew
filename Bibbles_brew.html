@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bibbles Brew</title>
+
+    <style>
+        body {
+            background-color: #b7d1c4;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            font-style: italic;
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            margin-bottom: 1rem;
+        }
+
+        .page {
+            display: flex;
+            gap: 2rem;
+            width: 100%;
+            max-width: 1000px;
+            padding: 1.5rem;
+        }
+
+        .content {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-image {
+            width: 90%;
+            max-width: 350px;
+            border-radius: 12px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            padding: 0.7rem 1.6rem;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .menu-image,
+        .about-image {
+            width: 95%;
+            max-width: 420px;
+            border-radius: 12px;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        /* Floating Events Button */
+        .events-btn {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+        }
+
+        /* Floating Events Panel */
+        .events-panel {
+            position: fixed;
+            top: 4.5rem;
+            right: 1rem;
+            width: 260px;
+            background-color: #e6f0ea;
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+            display: none;
+            z-index: 999;
+        }
+
+        .events-panel h2 {
+            margin-top: 0;
+            font-size: 1.3rem;
+        }
+
+        .event {
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #c2d6cb;
+        }
+
+        .event p {
+            margin: 0.25rem 0 0;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .events-panel {
+                width: 90%;
+                right: 5%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Floating Events Button -->
+    <button class="events-btn" onclick="toggleEvents()">Upcoming Events</button>
+
+    <!-- Floating Events Panel -->
+    <div id="eventsPanel" class="events-panel">
+        <h2>Upcoming Events</h2>
+
+        <div class="event">
+            <strong>☕ Open Mic Night</strong>
+            <p>March 22 • 6–9 PM</p>
+        </div>
+
+        <div class="event">
+            <strong>🎶 Live Acoustic Set</strong>
+            <p>March 29 • 7 PM</p>
+        </div>
+
+        <div class="event">
+            <strong>🎨 Coffee & Canvas</strong>
+            <p>April 5 • 5 PM</p>
+        </div>
+    </div>
+
+    <div class="page">
+
+        <!-- Main Content -->
+        <div class="content">
+            <h1>Bibbles Brew</h1>
+
+            <img src="IMG_9814.JPG" alt="Bibbles Brew image" class="main-image">
+
+            <div class="buttons">
+                <button onclick="toggleMenu()">Menu</button>
+                <button onclick="toggleAbout()">About Us</button>
+                <button onclick="toggleContact()">Contact</button>
+            </div>
+
+            <img id="menuImage"
+                 src="IMG_9815.jpg"
+                 alt="Menu"
+                 class="menu-image">
+
+            <img id="aboutUsImage"
+                 src="coffee-shop-cafe-social-media-post-template-promotion-flyer-brochure-vector.jpg"
+                 alt="About Us"
+                 class="about-image">
+        </div>
+
+    </div>
+
+    <script>
+        function hideAll() {
+            document.getElementById("menuImage").style.display = "none";
+            document.getElementById("aboutUsImage").style.display = "none";
+            document.getElementById("eventsPanel").style.display = "none";
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById("menuImage");
+            const isVisible = menu.style.display === "block";
+            hideAll();
+            menu.style.display = isVisible ? "none" : "block";
+        }
+
+        function toggleAbout() {
+            const about = document.getElementById("aboutUsImage");
+            const isVisible = about.style.display === "block";
+            hideAll();
+            about.style.display = isVisible ? "none" : "block";
+        }
+
+        function toggleEvents() {
+            const events = document.getElementById("eventsPanel");
+            const isVisible = events.style.display === "block";
+            hideAll();
+            events.style.display = isVisible ? "none" : "block";
+        }
+
+        function toggleContact() {
+            hideAll();
+            alert("Contact page coming soon!");
+        }
+    </script>
+
+</body>
+</html>
