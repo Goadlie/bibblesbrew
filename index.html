@@ -44,18 +44,33 @@
 
         .buttons {
             display: flex;
-            gap: 0.75rem;
+            gap: 2rem;
             margin: 1.5rem 0;
-            flex-wrap: wrap;
             justify-content: center;
         }
 
-        button {
-            padding: 0.7rem 1.6rem;
-            border-radius: 8px;
-            border: none;
-            font-size: 1rem;
+        .img-btn-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             cursor: pointer;
+        }
+
+        .img-btn-wrapper img {
+            width: 140px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .img-btn-wrapper img:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .btn-label {
+            margin-top: 0.4rem;
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #2f3e36;
         }
 
         .menu-image,
@@ -67,18 +82,37 @@
             display: none;
         }
 
-        /* Floating Events Button */
-        .events-btn {
+        .events-wrapper {
             position: fixed;
             top: 1rem;
             right: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             z-index: 1000;
+            cursor: pointer;
         }
 
-        /* Floating Events Panel */
+        .events-wrapper img {
+            width: 60px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .events-wrapper img:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .events-label {
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 0.25rem;
+            color: #2f3e36;
+        }
+
         .events-panel {
             position: fixed;
-            top: 4.5rem;
+            top: 5.5rem;
             right: 1rem;
             width: 260px;
             background-color: #e6f0ea;
@@ -91,18 +125,141 @@
 
         .events-panel h2 {
             margin-top: 0;
-            font-size: 1.3rem;
         }
 
         .event {
             margin-bottom: 1rem;
             padding-bottom: 0.75rem;
             border-bottom: 1px solid #c2d6cb;
+            position: relative;
         }
 
-        .event p {
-            margin: 0.25rem 0 0;
-            font-size: 0.95rem;
+        .delete-btn {
+            position: absolute;
+            right: 0;
+            top: 0;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: red;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .event:hover .delete-btn {
+            opacity: 1;
+        }
+
+        .add-event-btn {
+            margin-top: 0.5rem;
+            padding: 0.5rem 0.8rem;
+            border: none;
+            border-radius: 8px;
+            background-color: #2f3e36;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .booking-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+        }
+
+        .booking-content {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 450px;
+        }
+
+        .booking-content h2 {
+            margin-top: 0;
+        }
+
+        .booking-content input,
+        .booking-content textarea {
+            width: 100%;
+            padding: 0.7rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .booking-content button {
+            padding: 0.7rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .booking-content .submit-btn {
+            background: #2f3e36;
+            color: white;
+        }
+
+        .booking-content .close-btn {
+            background: #ccc;
+        }
+
+        .selected-dates {
+            background: #f0f0f0;
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .date-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.3rem 0;
+        }
+
+        .remove-date {
+            cursor: pointer;
+            color: red;
+            font-weight: bold;
+        }
+
+        /* PASSWORD MODAL */
+        .password-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1002;
+        }
+
+        .password-content {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 350px;
+        }
+
+        .password-content input {
+            width: 100%;
+            padding: 0.7rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
         }
 
         @media (max-width: 768px) {
@@ -116,89 +273,260 @@
 
 <body>
 
-    <!-- Floating Events Button -->
-    <button class="events-btn" onclick="toggleEvents()">Upcoming Events</button>
+    <div class="events-wrapper" onclick="toggleEvents()">
+        <img src="sun.png" alt="Upcoming Events">
+        <div class="events-label">Events</div>
+    </div>
 
-    <!-- Floating Events Panel -->
     <div id="eventsPanel" class="events-panel">
         <h2>Upcoming Events</h2>
+        <div id="eventsList"></div>
+        <button class="add-event-btn" onclick="openPasswordModal('add')">Add Event</button>
+    </div>
 
-        <div class="event">
-            <strong>☕ Open Mic Night</strong>
-            <p>March 22 • 6–9 PM</p>
+    <div id="bookingModal" class="booking-modal">
+        <div class="booking-content">
+            <h2>Book a Date</h2>
+
+            <label>Select Date(s):</label>
+            <input type="date" id="bookingDate">
+
+            <div class="selected-dates" id="selectedDates">
+                <strong>Selected Dates:</strong>
+                <div id="datesList"></div>
+            </div>
+
+            <label>Comment:</label>
+            <textarea id="bookingComment" placeholder="Please provide location and Contact information!"></textarea>
+
+            <button class="submit-btn" onclick="sendBooking()">Send Booking</button>
+            <button class="close-btn" onclick="closeBooking()">Close</button>
         </div>
+    </div>
 
-        <div class="event">
-            <strong>🎶 Live Acoustic Set</strong>
-            <p>March 29 • 7 PM</p>
-        </div>
-
-        <div class="event">
-            <strong>🎨 Coffee & Canvas</strong>
-            <p>April 5 • 5 PM</p>
+    <!-- PASSWORD MODAL -->
+    <div id="passwordModal" class="password-modal">
+        <div class="password-content">
+            <h2>Enter Password</h2>
+            <input type="password" id="passwordInput" placeholder="Password">
+            <button class="submit-btn" onclick="checkPassword()">Submit</button>
+            <button class="close-btn" onclick="closePasswordModal()">Cancel</button>
         </div>
     </div>
 
     <div class="page">
-
-        <!-- Main Content -->
         <div class="content">
             <h1>Bibbles Brew</h1>
 
-            <img src="IMG_9814.JPG" alt="Bibbles Brew image" class="main-image">
+            <img src="IMG_9814.JPG" class="main-image" alt="Bibbles Brew">
 
             <div class="buttons">
-                <button onclick="toggleMenu()">Menu</button>
-                <button onclick="toggleAbout()">About Us</button>
-                <button onclick="toggleContact()">Contact</button>
+                <div class="img-btn-wrapper" onclick="toggleMenu()">
+                    <img src="result.png" alt="Menu">
+                    <div class="btn-label">Menu</div>
+                </div>
+
+                <div class="img-btn-wrapper" onclick="toggleAbout()">
+                    <img src="result.png" alt="About Us">
+                    <div class="btn-label">About</div>
+                </div>
+
+                <div class="img-btn-wrapper" onclick="openBooking()">
+                    <img src="result.png" alt="Contact/Booking">
+                    <div class="btn-label">Contact/Booking</div>
+                </div>
             </div>
 
-            <img id="menuImage"
-                 src="IMG_9815.jpg"
-                 alt="Menu"
-                 class="menu-image">
-
-            <img id="aboutUsImage"
-                 src="coffee-shop-cafe-social-media-post-template-promotion-flyer-brochure-vector.jpg"
-                 alt="About Us"
-                 class="about-image">
+            <img id="menuImage" src="IMG_9815.jpg" class="menu-image" alt="Menu">
+            <img id="aboutUsImage" src="coffee-shop-cafe-social-media-post-template-promotion-flyer-brochure-vector.jpg" class="about-image" alt="About Us">
         </div>
-
     </div>
 
     <script>
+        const menuImage = document.getElementById("menuImage");
+        const aboutUsImage = document.getElementById("aboutUsImage");
+        const eventsPanel = document.getElementById("eventsPanel");
+        const eventsList = document.getElementById("eventsList");
+
+        const bookingModal = document.getElementById("bookingModal");
+        const bookingDate = document.getElementById("bookingDate");
+        const bookingComment = document.getElementById("bookingComment");
+        const datesList = document.getElementById("datesList");
+
+        const passwordModal = document.getElementById("passwordModal");
+        const passwordInput = document.getElementById("passwordInput");
+
+        const PASSWORD = "bibbles123";
+        const ADMIN_EMAIL = "carlos_bust160@yahoo.com";
+
+        let selectedDates = [];
+        let events = [];
+        let pendingAction = "";
+
+        function loadData() {
+            const storedEvents = JSON.parse(localStorage.getItem("events"));
+            const storedDates = JSON.parse(localStorage.getItem("selectedDates"));
+
+            if (storedEvents) events = storedEvents;
+            if (storedDates) selectedDates = storedDates;
+
+            renderEvents();
+            updateDatesList();
+        }
+
+        function saveData() {
+            localStorage.setItem("events", JSON.stringify(events));
+            localStorage.setItem("selectedDates", JSON.stringify(selectedDates));
+        }
+
         function hideAll() {
-            document.getElementById("menuImage").style.display = "none";
-            document.getElementById("aboutUsImage").style.display = "none";
-            document.getElementById("eventsPanel").style.display = "none";
+            menuImage.style.display = "none";
+            aboutUsImage.style.display = "none";
+            eventsPanel.style.display = "none";
         }
 
         function toggleMenu() {
-            const menu = document.getElementById("menuImage");
-            const isVisible = menu.style.display === "block";
+            const open = menuImage.style.display === "block";
             hideAll();
-            menu.style.display = isVisible ? "none" : "block";
+            menuImage.style.display = open ? "none" : "block";
         }
 
         function toggleAbout() {
-            const about = document.getElementById("aboutUsImage");
-            const isVisible = about.style.display === "block";
+            const open = aboutUsImage.style.display === "block";
             hideAll();
-            about.style.display = isVisible ? "none" : "block";
+            aboutUsImage.style.display = open ? "none" : "block";
         }
 
         function toggleEvents() {
-            const events = document.getElementById("eventsPanel");
-            const isVisible = events.style.display === "block";
+            const open = eventsPanel.style.display === "block";
             hideAll();
-            events.style.display = isVisible ? "none" : "block";
+            eventsPanel.style.display = open ? "none" : "block";
         }
 
-        function toggleContact() {
-            hideAll();
-            alert("Contact page coming soon!");
+        function openPasswordModal(action) {
+            pendingAction = action;
+            passwordModal.style.display = "flex";
         }
+
+        function closePasswordModal() {
+            passwordModal.style.display = "none";
+            passwordInput.value = "";
+        }
+
+        function checkPassword() {
+            if (passwordInput.value !== PASSWORD) {
+                alert("Incorrect password!");
+                return;
+            }
+
+            closePasswordModal();
+
+            if (pendingAction === "add") {
+                addEvent();
+            }
+        }
+
+        function addEvent() {
+            const title = prompt("Enter event title:");
+            const date = prompt("Enter date & time (e.g., April 10 • 7 PM):");
+
+            if (!title || !date) {
+                alert("Event title and date are required.");
+                return;
+            }
+
+            events.push({ title, date });
+            saveData();
+            renderEvents();
+        }
+
+        function renderEvents() {
+            eventsList.innerHTML = "";
+
+            events.forEach((event, index) => {
+                const eventDiv = document.createElement("div");
+                eventDiv.className = "event";
+                eventDiv.innerHTML = `
+                    <strong>${event.title}</strong>
+                    <p>${event.date}</p>
+                    <span class="delete-btn" onclick="deleteEvent(${index})">🗑️</span>
+                `;
+                eventsList.appendChild(eventDiv);
+            });
+        }
+
+        function deleteEvent(index) {
+            openPasswordModal("delete-" + index);
+        }
+
+        function confirmDelete(index) {
+            events.splice(index, 1);
+            saveData();
+            renderEvents();
+        }
+
+        passwordModal.addEventListener("click", (e) => {
+            if (e.target === passwordModal) closePasswordModal();
+        });
+
+        bookingDate.addEventListener("change", () => {
+            const date = bookingDate.value;
+            if (date && !selectedDates.includes(date)) {
+                selectedDates.push(date);
+                updateDatesList();
+                saveData();
+            }
+        });
+
+        function updateDatesList() {
+            datesList.innerHTML = "";
+
+            selectedDates.forEach((d, index) => {
+                const div = document.createElement("div");
+                div.className = "date-item";
+                div.innerHTML = `
+                    <span>${d}</span>
+                    <span class="remove-date" onclick="removeDate(${index})">Remove</span>
+                `;
+                datesList.appendChild(div);
+            });
+        }
+
+        function removeDate(index) {
+            selectedDates.splice(index, 1);
+            updateDatesList();
+            saveData();
+        }
+
+        function openBooking() {
+            bookingModal.style.display = "flex";
+        }
+
+        function closeBooking() {
+            bookingModal.style.display = "none";
+            selectedDates = [];
+            bookingComment.value = "";
+            updateDatesList();
+            saveData();
+        }
+
+        function sendBooking() {
+            if (selectedDates.length === 0) {
+                alert("Please select at least one date.");
+                return;
+            }
+
+            const comment = bookingComment.value || "No comment provided";
+
+            const subject = encodeURIComponent("Booking Request");
+            const body = encodeURIComponent(
+                `Booking Dates:\n${selectedDates.join("\n")}\n\nComment:\n${comment}`
+            );
+
+            window.location.href = `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
+        }
+
+        loadData();
     </script>
-
 </body>
 </html>
