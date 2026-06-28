@@ -40,6 +40,7 @@
             width: 90%;
             max-width: 350px;
             border-radius: 12px;
+            cursor: pointer;
         }
 
         .buttons {
@@ -80,6 +81,7 @@
             border-radius: 12px;
             margin-top: 1rem;
             display: none;
+            cursor: pointer;
         }
 
         .events-wrapper {
@@ -123,10 +125,6 @@
             z-index: 999;
         }
 
-        .events-panel h2 {
-            margin-top: 0;
-        }
-
         .event {
             margin-bottom: 1rem;
             padding-bottom: 0.75rem;
@@ -160,7 +158,8 @@
             font-weight: bold;
         }
 
-        .booking-modal {
+        .booking-modal,
+        .password-modal {
             position: fixed;
             top: 0;
             left: 0;
@@ -173,7 +172,8 @@
             z-index: 1001;
         }
 
-        .booking-content {
+        .booking-content,
+        .password-content {
             background: #fff;
             padding: 1.5rem;
             border-radius: 12px;
@@ -181,35 +181,14 @@
             max-width: 450px;
         }
 
-        .booking-content h2 {
-            margin-top: 0;
-        }
-
         .booking-content input,
-        .booking-content textarea {
+        .booking-content textarea,
+        .password-content input {
             width: 100%;
             padding: 0.7rem;
             margin-bottom: 1rem;
             border-radius: 8px;
             border: 1px solid #ccc;
-        }
-
-        .booking-content button {
-            padding: 0.7rem 1rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-
-        .booking-content .submit-btn {
-            background: #2f3e36;
-            color: white;
-        }
-
-        .booking-content .close-btn {
-            background: #ccc;
         }
 
         .selected-dates {
@@ -232,34 +211,34 @@
             font-weight: bold;
         }
 
-        /* PASSWORD MODAL */
-        .password-modal {
+        .submit-btn {
+            background: #2f3e36;
+            color: white;
+        }
+
+        .close-btn {
+            background: #ccc;
+        }
+
+        /* LIGHTBOX */
+        .lightbox {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.9);
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 1002;
+            z-index: 2000;
         }
 
-        .password-content {
-            background: #fff;
-            padding: 1.5rem;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 350px;
-        }
-
-        .password-content input {
-            width: 100%;
-            padding: 0.7rem;
-            margin-bottom: 1rem;
-            border-radius: 8px;
-            border: 1px solid #ccc;
+        .lightbox img {
+            max-width: 95%;
+            max-height: 95%;
+            border-radius: 10px;
+            cursor: zoom-out;
         }
 
         @media (max-width: 768px) {
@@ -273,8 +252,13 @@
 
 <body>
 
+    <!-- LIGHTBOX -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <img id="lightboxImg" src="" alt="Expanded">
+    </div>
+
     <div class="events-wrapper" onclick="toggleEvents()">
-        <img src="sun.png" alt="Upcoming Events">
+        <img src="sun.png" alt="Events">
         <div class="events-label">Events</div>
     </div>
 
@@ -287,28 +271,24 @@
     <div id="bookingModal" class="booking-modal">
         <div class="booking-content">
             <h2>Book a Date</h2>
-
-            <label>Select Date(s):</label>
             <input type="date" id="bookingDate">
 
-            <div class="selected-dates" id="selectedDates">
+            <div class="selected-dates">
                 <strong>Selected Dates:</strong>
                 <div id="datesList"></div>
             </div>
 
-            <label>Comment:</label>
-            <textarea id="bookingComment" placeholder="Please provide location and Contact information!"></textarea>
+            <textarea id="bookingComment" placeholder="Location + Contact info"></textarea>
 
-            <button class="submit-btn" onclick="sendBooking()">Send Booking</button>
+            <button class="submit-btn" onclick="sendBooking()">Send</button>
             <button class="close-btn" onclick="closeBooking()">Close</button>
         </div>
     </div>
 
-    <!-- PASSWORD MODAL -->
     <div id="passwordModal" class="password-modal">
         <div class="password-content">
             <h2>Enter Password</h2>
-            <input type="password" id="passwordInput" placeholder="Password">
+            <input type="password" id="passwordInput">
             <button class="submit-btn" onclick="checkPassword()">Submit</button>
             <button class="close-btn" onclick="closePasswordModal()">Cancel</button>
         </div>
@@ -318,27 +298,27 @@
         <div class="content">
             <h1>Bibbles Brew</h1>
 
-            <img src="IMG_9814.JPG" class="main-image" alt="Bibbles Brew">
+            <img src="IMG_9814.JPG" class="main-image" onclick="openLightbox(this.src)">
 
             <div class="buttons">
                 <div class="img-btn-wrapper" onclick="toggleMenu()">
-                    <img src="result.png" alt="Menu">
+                    <img src="result.png">
                     <div class="btn-label">Menu</div>
                 </div>
 
                 <div class="img-btn-wrapper" onclick="toggleAbout()">
-                    <img src="result.png" alt="About Us">
+                    <img src="result.png">
                     <div class="btn-label">About</div>
                 </div>
 
                 <div class="img-btn-wrapper" onclick="openBooking()">
-                    <img src="result.png" alt="Contact/Booking">
-                    <div class="btn-label">Contact/Booking</div>
+                    <img src="result.png">
+                    <div class="btn-label">Contact</div>
                 </div>
             </div>
 
-            <img id="menuImage" src="IMG_9815.jpg" class="menu-image" alt="Menu">
-            <img id="aboutUsImage" src="coffee-shop-cafe-social-media-post-template-promotion-flyer-brochure-vector.jpg" class="about-image" alt="About Us">
+            <img id="menuImage" src="IMG_9815.jpg" class="menu-image" onclick="openLightbox(this.src)">
+            <img id="aboutUsImage" src="coffee-shop-cafe-social-media-post-template-promotion-flyer-brochure-vector.jpg" class="about-image" onclick="openLightbox(this.src)">
         </div>
     </div>
 
@@ -356,51 +336,58 @@
         const passwordModal = document.getElementById("passwordModal");
         const passwordInput = document.getElementById("passwordInput");
 
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImg = document.getElementById("lightboxImg");
+
         const PASSWORD = "bibbles123";
         const ADMIN_EMAIL = "carlos_bust160@yahoo.com";
 
-        let selectedDates = [];
         let events = [];
+        let selectedDates = [];
         let pendingAction = "";
 
-        function loadData() {
-            const storedEvents = JSON.parse(localStorage.getItem("events"));
-            const storedDates = JSON.parse(localStorage.getItem("selectedDates"));
-
-            if (storedEvents) events = storedEvents;
-            if (storedDates) selectedDates = storedDates;
-
-            renderEvents();
-            updateDatesList();
+        function openLightbox(src) {
+            lightboxImg.src = src;
+            lightbox.style.display = "flex";
         }
 
-        function saveData() {
-            localStorage.setItem("events", JSON.stringify(events));
-            localStorage.setItem("selectedDates", JSON.stringify(selectedDates));
+        function closeLightbox() {
+            lightbox.style.display = "none";
+            lightboxImg.src = "";
         }
 
-        function hideAll() {
-            menuImage.style.display = "none";
+        function toggleMenu() {
+            menuImage.style.display = menuImage.style.display === "block" ? "none" : "block";
             aboutUsImage.style.display = "none";
             eventsPanel.style.display = "none";
         }
 
-        function toggleMenu() {
-            const open = menuImage.style.display === "block";
-            hideAll();
-            menuImage.style.display = open ? "none" : "block";
-        }
-
         function toggleAbout() {
-            const open = aboutUsImage.style.display === "block";
-            hideAll();
-            aboutUsImage.style.display = open ? "none" : "block";
+            aboutUsImage.style.display = aboutUsImage.style.display === "block" ? "none" : "block";
+            menuImage.style.display = "none";
+            eventsPanel.style.display = "none";
         }
 
         function toggleEvents() {
-            const open = eventsPanel.style.display === "block";
-            hideAll();
-            eventsPanel.style.display = open ? "none" : "block";
+            eventsPanel.style.display = eventsPanel.style.display === "block" ? "none" : "block";
+            menuImage.style.display = "none";
+            aboutUsImage.style.display = "none";
+        }
+
+        function openBooking() {
+            bookingModal.style.display = "flex";
+        }
+
+        function closeBooking() {
+            bookingModal.style.display = "none";
+        }
+
+        function sendBooking() {
+            const subject = encodeURIComponent("Booking Request");
+            const body = encodeURIComponent(
+                selectedDates.join("\n") + "\n\n" + bookingComment.value
+            );
+            window.location.href = `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
         }
 
         function openPasswordModal(action) {
@@ -414,119 +401,41 @@
         }
 
         function checkPassword() {
-            if (passwordInput.value !== PASSWORD) {
-                alert("Incorrect password!");
-                return;
-            }
+            if (passwordInput.value !== PASSWORD) return alert("Wrong password");
 
             closePasswordModal();
 
-            if (pendingAction === "add") {
-                addEvent();
+            if (pendingAction === "add") addEvent();
+            if (pendingAction.startsWith("delete-")) {
+                const i = parseInt(pendingAction.split("-")[1]);
+                events.splice(i, 1);
+                renderEvents();
             }
         }
 
         function addEvent() {
-            const title = prompt("Enter event title:");
-            const date = prompt("Enter date & time (e.g., April 10 • 7 PM):");
-
-            if (!title || !date) {
-                alert("Event title and date are required.");
-                return;
-            }
+            const title = prompt("Event title:");
+            const date = prompt("Date:");
+            if (!title || !date) return;
 
             events.push({ title, date });
-            saveData();
             renderEvents();
         }
 
         function renderEvents() {
             eventsList.innerHTML = "";
-
-            events.forEach((event, index) => {
-                const eventDiv = document.createElement("div");
-                eventDiv.className = "event";
-                eventDiv.innerHTML = `
-                    <strong>${event.title}</strong>
-                    <p>${event.date}</p>
-                    <span class="delete-btn" onclick="deleteEvent(${index})">🗑️</span>
-                `;
-                eventsList.appendChild(eventDiv);
-            });
-        }
-
-        function deleteEvent(index) {
-            openPasswordModal("delete-" + index);
-        }
-
-        function confirmDelete(index) {
-            events.splice(index, 1);
-            saveData();
-            renderEvents();
-        }
-
-        passwordModal.addEventListener("click", (e) => {
-            if (e.target === passwordModal) closePasswordModal();
-        });
-
-        bookingDate.addEventListener("change", () => {
-            const date = bookingDate.value;
-            if (date && !selectedDates.includes(date)) {
-                selectedDates.push(date);
-                updateDatesList();
-                saveData();
-            }
-        });
-
-        function updateDatesList() {
-            datesList.innerHTML = "";
-
-            selectedDates.forEach((d, index) => {
+            events.forEach((e, i) => {
                 const div = document.createElement("div");
-                div.className = "date-item";
+                div.className = "event";
                 div.innerHTML = `
-                    <span>${d}</span>
-                    <span class="remove-date" onclick="removeDate(${index})">Remove</span>
+                    <strong>${e.title}</strong>
+                    <p>${e.date}</p>
+                    <span class="delete-btn" onclick="openPasswordModal('delete-${i}')">🗑</span>
                 `;
-                datesList.appendChild(div);
+                eventsList.appendChild(div);
             });
         }
-
-        function removeDate(index) {
-            selectedDates.splice(index, 1);
-            updateDatesList();
-            saveData();
-        }
-
-        function openBooking() {
-            bookingModal.style.display = "flex";
-        }
-
-        function closeBooking() {
-            bookingModal.style.display = "none";
-            selectedDates = [];
-            bookingComment.value = "";
-            updateDatesList();
-            saveData();
-        }
-
-        function sendBooking() {
-            if (selectedDates.length === 0) {
-                alert("Please select at least one date.");
-                return;
-            }
-
-            const comment = bookingComment.value || "No comment provided";
-
-            const subject = encodeURIComponent("Booking Request");
-            const body = encodeURIComponent(
-                `Booking Dates:\n${selectedDates.join("\n")}\n\nComment:\n${comment}`
-            );
-
-            window.location.href = `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
-        }
-
-        loadData();
     </script>
+
 </body>
 </html>
